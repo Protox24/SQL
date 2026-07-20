@@ -8,7 +8,7 @@ with top_skills as (
         job_id,
         job_title,
         name as company_name,
-        job_posted_date
+        salary_year_avg
 
     FROM
         job_postings_fact as jp
@@ -25,8 +25,11 @@ with top_skills as (
 )
 
 SELECT
-    skills,
-    count(*) as no_total
+    ts.job_id,
+    job_title,
+    company_name,
+    salary_year_avg,
+    skills
 FROM
     top_skills as ts
 
@@ -35,7 +38,5 @@ on sjd.job_id = ts.job_id
 left JOIN skills_dim as sd 
 ON sd.skill_id = sd.skill_id
 
-group BY
-    skills
 order BY
-    no_total desc
+    salary_year_avg desc
